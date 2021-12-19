@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
-import StripeConfirmation from "../../structure/Stripe/StripeConfirmation";
+import StripeConfirmation from "../../components/Stripe/StripeConfirmation";
 
 const Confirmation = () => {
   const router = useRouter();
