@@ -9,6 +9,7 @@ const NewItem = ({ itemObj }: ItemProps) => {
   return (
     <S.ItemWrapper>
       <S.ItemImg src={product.images?.[0]} />
+      <S.BuyButton>Buy</S.BuyButton>
     </S.ItemWrapper>
   );
 };
