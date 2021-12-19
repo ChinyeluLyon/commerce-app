@@ -1,22 +1,31 @@
 import React, { useState, useEffect } from "react";
+import useGetSingleItemData from "../../data/hooks/UseGetSingleItem";
 
 type StripeConfirmationProps = {
   priceId: string;
 };
 
-const ProductDisplay = ({ priceId }: StripeConfirmationProps) => (
+type ProductDisplayProps = {
+  itemData: Price;
+};
+
+const ProductDisplay = ({ itemData }: ProductDisplayProps) => (
   <section>
     <div className="product">
       <img
-        src="https://i.imgur.com/EHyR2nP.png"
-        alt="The cover of Stubborn Attachments"
+        width={100}
+        src={itemData.product.images?.[0]}
+        alt={itemData.product.name}
       />
       <div className="description">
-        <h3>Stubborn Attachments</h3>
-        <h5>$20.00</h5>
+        <h3>{itemData.product.name}</h3>
+        <h5>£{itemData.unit_amount / 100}</h5>
       </div>
     </div>
-    <form action={`/create-checkout-session?priceId=${priceId}`} method="POST">
+    <form
+      action={`/create-checkout-session?priceId=${itemData.id}`}
+      method="POST"
+    >
       <button type="submit">Checkout</button>
     </form>
   </section>
@@ -48,9 +57,16 @@ export default function StripeConfirmation({
     }
   }, []);
 
+  const { data } = useGetSingleItemData(priceId);
+  console.log(data);
+
+  if (!data) {
+    return <h1>loading...</h1>;
+  }
+
   return message ? (
     <Message message={message} />
   ) : (
-    <ProductDisplay priceId={priceId} />
+    <ProductDisplay itemData={data} />
   );
 }

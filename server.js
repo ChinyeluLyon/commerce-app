@@ -14,10 +14,18 @@ const MY_DOMAIN = `http://localhost:${port}`;
 app.prepare().then(() => {
   const server = express();
 
-  server.get("/stripe-products", async (req, res) => {
+  server.get("/item", async (req, res) => {
+    const price = await stripe.prices.retrieve(req.query.priceId, {
+      expand: ["product"],
+    });
+    res.json(price);
+  });
+
+  server.get("/items/all", async (req, res) => {
     const prices = await stripe.prices.list({
-      limit: 3,
+      limit: 10,
       expand: ["data.product"],
+      active: true,
     });
     res.json(prices);
   });

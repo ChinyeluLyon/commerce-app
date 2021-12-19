@@ -1,10 +1,10 @@
 import { AxiosRequestConfig } from "axios";
 import useAxios from "axios-hooks";
 
-const useGetAllProductsData = () => {
+const useGetSingleItemData = (priceId: string) => {
   const queryConfig: AxiosRequestConfig = {
     method: "get",
-    url: "http://localhost:3000/items/all",
+    url: `http://localhost:3000/item?priceId=${priceId}`,
   };
 
   const [{ data, loading, error }, refetch] = useAxios(queryConfig);
@@ -12,4 +12,4 @@ const useGetAllProductsData = () => {
   return { data, loading, error, refetch };
 };
 
-export default useGetAllProductsData;
+export default useGetSingleItemData;
