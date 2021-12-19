@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-const ProductDisplay = () => (
+type StripeConfirmationProps = {
+  priceId: string;
+};
+
+const ProductDisplay = ({ priceId }: StripeConfirmationProps) => (
   <section>
     <div className="product">
       <img
@@ -12,7 +16,7 @@ const ProductDisplay = () => (
         <h5>$20.00</h5>
       </div>
     </div>
-    <form action="/create-checkout-session" method="POST">
+    <form action={`/create-checkout-session?priceId=${priceId}`} method="POST">
       <button type="submit">Checkout</button>
     </form>
   </section>
@@ -24,7 +28,9 @@ const Message = ({ message }) => (
   </section>
 );
 
-export default function App() {
+export default function StripeConfirmation({
+  priceId,
+}: StripeConfirmationProps) {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -42,5 +48,9 @@ export default function App() {
     }
   }, []);
 
-  return message ? <Message message={message} /> : <ProductDisplay />;
+  return message ? (
+    <Message message={message} />
+  ) : (
+    <ProductDisplay priceId={priceId} />
+  );
 }

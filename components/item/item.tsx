@@ -1,13 +1,11 @@
 import { useRouter } from "next/router";
-import usePostCheckout from "../../data/hooks/UsePostCheckout";
 import * as S from "./item.styles";
 
 type ItemProps = { itemObj: Price };
 
 const Item = ({ itemObj: priceObj }: ItemProps) => {
+  const router = useRouter();
   const { product } = priceObj;
-
-  const { fetch: postCheckout } = usePostCheckout();
 
   return (
     <S.ItemWrapper>
@@ -24,7 +22,7 @@ const Item = ({ itemObj: priceObj }: ItemProps) => {
       <S.BuyButtonWrapper>
         <button
           onClick={() => {
-            postCheckout();
+            router.push(`/confirmation?priceId=${priceObj.id}`);
           }}
         >
           buy
